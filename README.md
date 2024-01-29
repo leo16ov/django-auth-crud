@@ -5,7 +5,7 @@ solo basta con borrar todo lo que esta en ese archivo y reemplazarlo por lo sigu
 
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(____file____).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure--tthf%x(icn%azfz2$58rsto54zxc-4y6*b8wc)min-1w(@8z0'
 
