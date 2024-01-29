@@ -30,6 +30,7 @@ def createTask(request):
     else:
         try:
             form = CreateTaskForm(request.POST)
+            print(request.POST)
             newTask = form.save(commit= False)
             newTask.user = request.user
             newTask.save()
@@ -83,28 +84,28 @@ def signup(request):
             'form': UserCreationForm
         })
     
-    else:
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                print(request.POST)
-                print(request.POST['username'])
-                user = User.objects.create_user(username= request.POST['username'], password= request.POST['password1'])
-                user.save()
-                login(request, user)
-                return redirect('/tasks/')
-
-            except IntegrityError:
-                return render(request, 'signup.html', {
-                    'form': UserCreationForm,
-                    'error': 'El username ya esta en uso'
-                })
-
-        elif request.POST['password1'] != request.POST['password2']:
-            return render(request, 'signup.html', {
+    if request.POST['password1'] != request.POST['password2']:
+        return render(request, 'signup.html', {
                 'form': UserCreationForm,
                 'error': 'Las contraseñas no coinciden, intentelo de nuevo'
             })
+    
+    if request.POST['password1'] == request.POST['password2']:
+        try:
+            print(request.POST)
+            print(request.POST['username'])
+            user = User.objects.create_user(username= request.POST['username'], password= request.POST['password1'])
+            user.save()
+            login(request, user)
+            return redirect('/tasks/')
 
+        except IntegrityError:
+            return render(request, 'signup.html', {
+                'form': UserCreationForm,
+                'error': 'El username ya esta en uso'
+            })
+
+            
 @login_required
 def signout(request):
     logout(request)
